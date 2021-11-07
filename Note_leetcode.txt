@@ -1,0 +1,68 @@
+
+Note of Leetcode problems
+
+
+---------------------
+11/06/2021 Sat
+---------------------
+
+// 344. Reverse String
+
+Write a function that reverses a string. The input string is given as an array of characters s.
+
+Example 1:
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+
+Example 2:
+Input: s = ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+
+Constraints:
+1 <= s.length <= 105
+s[i] is a printable ascii character.
+
+Follow up: Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+
+
+void reverseString(char* s, int sSize){
+	char* p = s;
+	char* q = s + sSize - 1;
+	
+	while (p < q) {
+		char t = *p;
+		*p = *q;
+		*q = t;
+	}
+
+	return;
+}
+
+void main()
+{
+	char* str1 = "hello";
+	char* str2 = "Hannah";
+	
+	reverseString(str1, 5);
+	printf("str1 = %s\n", str1);
+	
+	reverseString(str2, 6);
+	printf("str2 = %s\n", str2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
