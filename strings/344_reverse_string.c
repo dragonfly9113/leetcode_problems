@@ -51,7 +51,8 @@ The second one is to use {} clause to initialize an array and so str will treate
 #include <stdio.h>
 #include <string.h>
 
-void reverseString(char* s, int sSize){
+// Use two pointers
+void reverseString_two_pointers(char* s, int sSize){
 	char* p = s;
 	char* q = s + sSize - 1;
 	
@@ -61,6 +62,22 @@ void reverseString(char* s, int sSize){
 		*q = t;
 		p++;
 		q--;
+	}
+
+	return;
+}
+
+// Use index instead of pointer
+void reverseString(char* s, int sSize){
+	int i = 0;
+	int j = sSize - 1;
+
+	while (i < j) {
+		char t = s[i];
+		s[i] = s[j];
+		s[j] = t;
+		i++;
+		j--;
 	}
 
 	return;
