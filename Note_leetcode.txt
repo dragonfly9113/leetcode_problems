@@ -26,36 +26,6 @@ Follow up: Do not allocate extra space for another array. You must do this by mo
 
 
 
-void reverseString(char* s, int sSize){
-	char* p = s;
-	char* q = s + sSize - 1;
-	
-	while (p < q) {
-		char t = *p;
-		*p = *q;
-		*q = t;
-	}
-
-	return;
-}
-
-void main()
-{
-	char* str1 = "hello";
-	char* str2 = "Hannah";
-	
-	reverseString(str1, 5);
-	printf("str1 = %s\n", str1);
-	
-	reverseString(str2, 6);
-	printf("str2 = %s\n", str2);
-}
-
-
-
-
-
-
 
 
 
