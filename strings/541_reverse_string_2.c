@@ -21,7 +21,6 @@ s consists of only lowercase English letters.
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
