@@ -29,27 +29,53 @@ All strings consist only of lowercase letters.
 #include <stdio.h>
 #include <string.h>
 
-
 /*
 Version 1
+Example 1:
+Input: items = [["phone","blue","pixel"],["computer","silver","lenovo"],["phone","gold","iphone"]], ruleKey = "color", ruleValue = "silver"
+Output: 1
+Explanation: There is only one item matching the given rule, which is ["computer","silver","lenovo"].
+ruleKey is equal to either "type", "color", or "name".
 */
-int countMatches(char *** items, int itemsSize, int* itemsColSize, char * ruleKey, char * ruleValue){
+int countMatches(char ***items, int itemsSize, int* itemsColSize, char * ruleKey, char * ruleValue){
+    int cnt = 0;
+    int itemsCol = 0;
 
+    if (!strcmp(ruleKey, "type")) itemsCol = 0;
+    else if (!strcmp(ruleKey, "color")) itemsCol = 1;
+    else itemsCol = 2;
 
+    for (int i = 0; i < itemsSize; i++) {
+        if (!strcmp(items[i][itemsCol], ruleValue)) cnt++;
+    }
 
-
+    return cnt;
 }
 
+/*
+Example 1:
+Input: items = [["phone","blue","pixel"],["computer","silver","lenovo"],["phone","gold","iphone"]], ruleKey = "color", ruleValue = "silver"
+Output: 1
+Explanation: There is only one item matching the given rule, which is ["computer","silver","lenovo"].
 
+Example 2:
+Input: items = [["phone","blue","pixel"],["computer","silver","phone"],["phone","gold","iphone"]], ruleKey = "type", ruleValue = "phone"
+Output: 2
+Explanation: There are only two items matching the given rule, which are ["phone","blue","pixel"] and ["phone","gold","iphone"]. Note that the item ["computer","silver","phone"] does not match.
+*/
+int main() {
+    int count = 0;
+    int itemsColSize = 3;
+    //char*** items1 = {{"phone","blue","pixel"}, {"computer","silver","lenovo"}, {"phone","gold","iphone"}};
+    char items1[][3][10] = {{"phone","blue","pixel"}, {"computer","silver","lenovo"}, {"phone","gold","iphone"}};
+    char* ruleKey1 = "color";
+    char* ruleValue1 = "silver";
 
+    count = countMatches((char ***)items1, 3, &itemsColSize, ruleKey1, ruleValue1);
+    printf("count = %d\n", count);
 
-
-
-
-
-
-
-
+    return 0;
+}
 
 
 
