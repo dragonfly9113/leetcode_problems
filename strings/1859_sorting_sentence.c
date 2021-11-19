@@ -36,15 +36,20 @@ s contains no leading or trailing spaces.
 /*
 Version 1
 */
-char * sortSentence(char * s){
+char * sortSentence_1(char * s){
     char temp[MAX_NUM_WORDS][MAX_WORD_LEN] = {};
     int temp_word_len[MAX_NUM_WORDS] = {0};
-    char* out = (char *)malloc(MAX_WORD_LEN * sizeof(char));
     int cnt = 0;
 
+    char* out = (char *)malloc(MAX_WORD_LEN * sizeof(char));
+    if (!out) {
+        printf("out is null, malloc() failed!\n");
+        exit(1);
+    }
+    
     for (char *p = s, *q = s; p - s <= strlen(s); p++) {
         if (*p != ' ' && *p != '\0') continue;
-        int i = *(p - 1) - 1;
+        int i = *(p - 1) - '0' - 1;
         int len = p - q - 1;
         strncpy(temp[i], q, len);
         temp_word_len[i] = len;
@@ -64,6 +69,43 @@ char * sortSentence(char * s){
 }
 
 /*
+Version 2
+No need to use temp_word_len[]. Since the array temp[][] is initialized to all 0, when we strncpy each word to it, each temp[] entry (each word) will have proper ending null char. Therefore there is no need to record each word's length.
+In the second for loop, we can just use strcpy() instead of strncpy() since each temp[i] has a proper traling null char in place.
+
+Note: strcpy() will copy the trailing null char while strncpy() will not if n <= strlen(source).
+*/
+char * sortSentence(char * s){
+    char temp[MAX_NUM_WORDS][MAX_WORD_LEN] = {};
+    int cnt = 0;
+
+    char* out = (char *)malloc(MAX_WORD_LEN * sizeof(char));
+    if (!out) {
+        printf("out is null, malloc() failed!\n");
+        exit(1);
+    }
+    
+    for (char *p = s, *q = s; p - s <= strlen(s); p++) {
+        if (*p != ' ' && *p != '\0') continue;
+        int i = *(p - 1) - '0' - 1;
+        int len = p - q - 1;
+        strncpy(temp[i], q, len);
+        cnt++;
+        q = p + 1;
+    }
+
+    char* p = out;
+    for (int i = 0; i < cnt; i++) {
+        strcpy(p, temp[i]);
+        p += strlen(temp[i]);
+        *p = ' '; p++;
+    }
+    *(--p) = '\0';
+
+    return out;
+}
+
+/*
 Example 1:
 Input: s = "is2 sentence4 This1 a3"
 Output: "This is a sentence"
@@ -75,12 +117,15 @@ Output: "Me Myself and I"
 Explanation: Sort the words in s to their original positions "Me1 Myself2 and3 I4", then remove the numbers.
 */
 int main() {
-    char* s = "is2 sentence4 This1 a3";
+    char *s1 = "is2 sentence4 This1 a3", *s2 = "Myself2 Me1 I4 and3";
 
-    char* out = sortSentence(s);
-    printf("out: %s\n", out);
+    char *out1 = sortSentence(s1);
+    printf("out1: %s\n", out1);
 
+    char *out2 = sortSentence(s2);
+    printf("out2: %s\n", out2);
+
+    free(out1); free(out2);
     return 0;
 }
-
 
