@@ -47,7 +47,7 @@ char * sortSentence(char * s){
         int i = *(p - 1) - 1;
         int len = p - q - 1;
         strncpy(temp[i], q, len);
-        temp_word_len[temp[i]] = len;
+        temp_word_len[i] = len;
         cnt++;
         q = p + 1;
     }
@@ -63,12 +63,24 @@ char * sortSentence(char * s){
     return out;
 }
 
+/*
+Example 1:
+Input: s = "is2 sentence4 This1 a3"
+Output: "This is a sentence"
+Explanation: Sort the words in s to their original positions "This1 is2 a3 sentence4", then remove the numbers.
+
+Example 2:
+Input: s = "Myself2 Me1 I4 and3"
+Output: "Me Myself and I"
+Explanation: Sort the words in s to their original positions "Me1 Myself2 and3 I4", then remove the numbers.
+*/
 int main() {
+    char* s = "is2 sentence4 This1 a3";
+
+    char* out = sortSentence(s);
+    printf("out: %s\n", out);
 
     return 0;
 }
-
-
-
 
 
