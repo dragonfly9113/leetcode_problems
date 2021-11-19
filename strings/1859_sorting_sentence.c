@@ -28,22 +28,40 @@ s contains no leading or trailing spaces.
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_NUM_WORDS 9
+#define MAX_WORD_LEN 200
 
+/*
+Version 1
+*/
 char * sortSentence(char * s){
-    char* words[MAX_NUM_WORDS] = {};
-    int len = strlen(s);
+    char temp[MAX_NUM_WORDS][MAX_WORD_LEN] = {};
+    int temp_word_len[MAX_NUM_WORDS] = {0};
+    char* out = (char *)malloc(MAX_WORD_LEN * sizeof(char));
+    int cnt = 0;
 
-    for (int i = len - 1; i >= 0; i--) {
-        
-
-
+    for (char *p = s, *q = s; p - s <= strlen(s); p++) {
+        if (*p != ' ' && *p != '\0') continue;
+        int i = *(p - 1) - 1;
+        int len = p - q - 1;
+        strncpy(temp[i], q, len);
+        temp_word_len[temp[i]] = len;
+        cnt++;
+        q = p + 1;
     }
 
+    char* p = out;
+    for (int i = 0; i < cnt; i++) {
+        strncpy(p, temp[i], temp_word_len[i]);
+        p += temp_word_len[i];
+        *p = ' '; p++;
+    }
+    *(--p) = '\0';
 
+    return out;
 }
-
 
 int main() {
 
