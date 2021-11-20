@@ -42,7 +42,10 @@ It is guaranteed that parentheses expression s is a VPS.
 #include <string.h>
 #include <stdlib.h>
 
-int maxDepth(char * s){
+/*
+Version 1
+*/
+int maxDepth_1(char * s){
     int max = 0, pCnt = 0;
 
     for (char *p = s; *p != '\0'; p++) {
@@ -58,13 +61,36 @@ int maxDepth(char * s){
     }
 
     if (pCnt != 0) {
-        printf("pCnt is not equal to 0, something is wrong?\n");
+        printf("pCnt is not equal to 0, s is not VPS?\n");
         exit(1);
     }
 
     return max;
 }
 
+/*
+Version 2
+A little more compact code.
+*/
+int maxDepth(char * s){
+    int max = 0, pCnt = 0;
+
+    for (char *p = s; *p != '\0'; p++) {
+        if (*p == '(') {
+            pCnt++;            
+            if (max < pCnt) max = pCnt;
+        }
+        else if (*p == ')')
+            pCnt--;
+    }
+
+    if (pCnt != 0) {
+        printf("pCnt is not equal to 0, s is not VPS?\n");
+        exit(1);
+    }
+
+    return max;
+}
 
 /*
 Example 1:
@@ -102,5 +128,4 @@ int main() {
 
     return 0;
 }
-
 
