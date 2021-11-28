@@ -50,9 +50,16 @@ Output: "lovely"
 */
 int main() {
     char s1[] = "Hello";
+    char s2[] = "here";
+    char s3[] = "LOVELY";
 
     printf("ret = %s\n", toLowerCase(s1));
+    printf("ret = %s\n", toLowerCase(s2));
+    printf("ret = %s\n", toLowerCase(s3));
 
+    return 0;
 }
+
+
 
 
