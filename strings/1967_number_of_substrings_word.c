@@ -52,7 +52,7 @@ int numOfStrings_1(char ** patterns, int patternsSize, char * word){
 
 /*
 Version 2 - Not OK!
-
+It doesn't work for the following test case:
 Input:
 ["hvzoo","r","hyjcrgzr","yvqahvz","org","yvqahvz","org","oor","gxe","zo","ahvzoo","ahvzo","r","o","caviikty","pkxlcaams"]
 "tyvqahvzoorg"
@@ -76,7 +76,6 @@ char *myStrstr(const char * big, const char * little) {
 
 int numOfStrings(char ** patterns, int patternsSize, char * word){
     int cnt = 0;
-
     for (int i = 0; i < patternsSize; i++)
         if (myStrstr(word, patterns[i])) cnt++;
 
