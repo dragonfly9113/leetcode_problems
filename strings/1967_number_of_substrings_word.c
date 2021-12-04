@@ -42,7 +42,7 @@ patterns[i] and word consist of lowercase English letters.
 Version 1
 */
 int numOfStrings_1(char ** patterns, int patternsSize, char * word){
-    int cnt = 0;
+     int cnt = 0;
 
     for (int i = 0; i < patternsSize; i++)
         if (strstr(word, patterns[i])) cnt++;
