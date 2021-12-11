@@ -74,10 +74,46 @@ char *myStrstr(const char * big, const char * little) {
     return NULL;
 }
 
-int numOfStrings(char ** patterns, int patternsSize, char * word){
+int numOfStrings_2(char ** patterns, int patternsSize, char * word){
     int cnt = 0;
     for (int i = 0; i < patternsSize; i++)
         if (myStrstr(word, patterns[i])) cnt++;
+
+    return cnt;
+}
+
+/*
+Version 3
+Use string lib functions based on P. J. Plauger implementation.
+*/
+char *my_strchr(const char *s, int c) {
+    const char ch = c;
+
+    for (; *s != ch; s++)
+        if (*s == '\0')
+            return (NULL);
+    return ((char *)s);
+}
+
+char *my_strstr(const char *s1, const char *s2) {
+    if (*s2 == '\0')
+        return ((char *)s1);
+    for (; (s1 = my_strchr(s1, *s2)) != NULL; ++s1) {
+        for (const char *sc1 = s1, *sc2 = s2; ; ) {
+            if (*++sc2 == '\0')
+                return (char *)s1;
+            else if (*++sc1 != *sc2)
+                break;
+        }
+    }
+    return NULL;
+}
+
+int numOfStrings(char ** patterns, int patternsSize, char * word){
+    int cnt = 0;
+    for (int i = 0; i < patternsSize; i++)
+        if (my_strstr(word, patterns[i])) 
+            cnt++;
 
     return cnt;
 }
@@ -137,7 +173,4 @@ int main() {
 
     return 0;
 }
-
-
-
 
