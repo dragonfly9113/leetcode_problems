@@ -411,7 +411,7 @@ RETURN VALUE
        reserved to indicate an error.
 */
 /*
-Version 1 - not working....
+Version 1
 */
 char *my_strncat(char *restrict s1, const char *restrict s2, size_t n) {
     int len = strlen(s1);
@@ -426,15 +426,29 @@ char *my_strncat(char *restrict s1, const char *restrict s2, size_t n) {
     return s1;
 }
 
+/*
+Version 2
+P. J. Plauger version
+
+The function strncat first locates the end of the destination string. Then it concatenates at most n additional from the source string. Note that the function always supplies a terminating null character.
+*/
+
+
+
+
+
 
 int main() {
-    char s1[MAX_MEM_LEN] = "abc";
+    char s11[MAX_MEM_LEN] = "abc";
+    char s12[MAX_MEM_LEN] = "abc";
+    char s13[MAX_MEM_LEN] = "abc";
+    char s14[MAX_MEM_LEN] = "abc";
     char *s2 = "efg";
 
-    printf("ans = %s\n", my_strncat(s1, s2, 0));
-    printf("ans = %s\n", my_strncat(s1, s2, 2));
-    printf("ans = %s\n", my_strncat(s1, s2, 3));
-    printf("ans = %s\n", my_strncat(s1, s2, 5));
+    printf("ans = %s\n", my_strncat(s11, s2, 0));
+    printf("ans = %s\n", my_strncat(s12, s2, 2));
+    printf("ans = %s\n", my_strncat(s13, s2, 3));
+    printf("ans = %s\n", my_strncat(s14, s2, 5));
 
     return 0;
 }
