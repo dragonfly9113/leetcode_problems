@@ -388,6 +388,60 @@ int main_memset() {
 
 /*
 NAME
+       strncat — concatenate a string with part of another
+SYNOPSIS
+       #include <string.h>
+
+       char *strncat(char *restrict s1, const char *restrict s2, size_t n);
+DESCRIPTION
+       The functionality described on this reference page is aligned
+       with the ISO C standard. Any conflict between the requirements
+       described here and the ISO C standard is unintentional. This
+       volume of POSIX.1‐2017 defers to the ISO C standard.
+
+       The strncat() function shall append not more than n bytes (a NUL
+       character and bytes that follow it are not appended) from the
+       array pointed to by s2 to the end of the string pointed to by s1.
+       The initial byte of s2 overwrites the NUL character at the end of
+       s1.  A terminating NUL character is always appended to the
+       result. If copying takes place between objects that overlap, the
+       behavior is undefined.
+RETURN VALUE
+       The strncat() function shall return s1; no return value shall be
+       reserved to indicate an error.
+*/
+/*
+Version 1 - not working....
+*/
+char *my_strncat(char *restrict s1, const char *restrict s2, size_t n) {
+    int len = strlen(s1);
+    char *sc1 = s1;
+
+    for (sc1 += len; 0 < n; --n, ++sc1, ++s2) {
+        if (*s2 == '\0')
+            break;
+        *sc1 = *s2;
+    }
+    *sc1 = '\0';
+    return s1;
+}
+
+
+int main() {
+    char s1[MAX_MEM_LEN] = "abc";
+    char *s2 = "efg";
+
+    printf("ans = %s\n", my_strncat(s1, s2, 0));
+    printf("ans = %s\n", my_strncat(s1, s2, 2));
+    printf("ans = %s\n", my_strncat(s1, s2, 3));
+    printf("ans = %s\n", my_strncat(s1, s2, 5));
+
+    return 0;
+}
+
+
+/*
+NAME
        strchr — string scanning operation
 SYNOPSIS
        #include <string.h>
