@@ -458,7 +458,78 @@ int main_strncat() {
     return 0;
 }
 
+/*
+NAME
+       strncmp — compare part of two strings
+SYNOPSIS
+       #include <string.h>
 
+       int strncmp(const char *s1, const char *s2, size_t n);
+DESCRIPTION
+       The functionality described on this reference page is aligned
+       with the ISO C standard. Any conflict between the requirements
+       described here and the ISO C standard is unintentional. This
+       volume of POSIX.1‐2017 defers to the ISO C standard.
+
+       The strncmp() function shall compare not more than n bytes (bytes
+       that follow a NUL character are not compared) from the array
+       pointed to by s1 to the array pointed to by s2.
+
+       The sign of a non-zero return value is determined by the sign of
+       the difference between the values of the first pair of bytes
+       (both interpreted as type unsigned char) that differ in the
+       strings being compared.
+RETURN VALUE
+       Upon successful completion, strncmp() shall return an integer
+       greater than, equal to, or less than 0, if the possibly null-
+       terminated array pointed to by s1 is greater than, equal to, or
+       less than the possibly null-terminated array pointed to by s2
+       respectively.
+*/
+/*
+Version 1
+*/
+int my_strncmp_1(const char *s1, const char *s2, size_t n) {
+    const unsigned char *su1;
+    const unsigned char *su2;
+
+    for (su1 = s1, su2 = s2; 0 < n && *su1 != '\0' && *su2 != '\0'; n--, su1++, su2++) {
+        if (*su1 == *su2)
+            continue;
+        return (*su1 > *su2 ? 1 : -1);
+    }
+    if (n == 0 || (*su1 == '\0' && *su2 == '\0'))
+        return 0;
+    return (*su1 > *su2 ? 1 : -1);    
+}
+
+/*
+Version 2
+P. J. Plauger version
+
+The function strncmp is similar to memcmp, except that it also stops on a terminating null charater. And unlike memcmp, strncmp can use its pointer arguments directly. It type casts them to pointer to unsigned char only to compute a nonzero return value.
+*/
+int my_strncmp(const char *s1, const char *s2, size_t n) {
+    for (; 0 < n; n--, s1++, s2++)
+        if (*s1 != *s2)
+            return (*(unsigned char *)s1 < *(unsigned char *)s2 ? -1 : 1);
+        else if (*s1 == '\0')
+            return 0;
+    return 0;
+}
+
+int main_strncmp() {
+    char *s11 = "abc";
+    char *s21 = "abcdef";
+    char *s22 = "aba";
+
+    printf("ans = %d\n", my_strncmp(s11, s21, 3));
+    printf("ans = %d\n", my_strncmp(s11, s21, 4));
+    printf("ans = %d\n", my_strncmp(s11, s22, 3));
+    printf("ans = %d\n", my_strncmp(s11, s11, 4));
+
+    return 0;
+}
 
 
 /*
@@ -591,5 +662,12 @@ int main_strstr() {
 
     return 0;
 }
+
+
+
+
+
+
+
 
 
