@@ -531,6 +531,81 @@ int main_strncmp() {
     return 0;
 }
 
+/*
+NAME
+       stpncpy, strncpy — copy fixed length string, returning a pointer
+       to the array end
+SYNOPSIS
+       #include <string.h>
+
+       char *stpncpy(char *restrict s1, const char *restrict s2, size_t n);
+       char *strncpy(char *restrict s1, const char *restrict s2, size_t n);
+DESCRIPTION
+       The stpncpy() and strncpy() functions shall copy not more than n
+       bytes (bytes that follow a NUL character are not copied) from the
+       array pointed to by s2 to the array pointed to by s1.
+
+       If the array pointed to by s2 is a string that is shorter than n
+       bytes, NUL characters shall be appended to the copy in the array
+       pointed to by s1, until n bytes in all are written.
+
+       If copying takes place between objects that overlap, the behavior
+       is undefined.
+RETURN VALUE
+       If a NUL character is written to the destination, the stpncpy()
+       function shall return the address of the first such NUL
+       character.  Otherwise, it shall return &s1[n].
+
+       The strncpy() function shall return s1.
+
+       No return values are reserved to indicate an error.
+*/
+char *my_strncpy_1(char *restrict s1, const char *restrict s2, size_t n) {
+    char *sc1;
+
+    for (sc1 = s1; 0 < n; n--) {
+        if (*s2 == '\0')
+            break;
+        *sc1++ = *s2++;
+    }
+    if (n == 0) {
+        *sc1 = '\0';
+        return s1;
+    }
+    for (; 0 < n; n--)
+        *sc1++ = '\0';
+    return s1;
+}
+
+/*
+Version 2
+P. J. Plauger version
+
+The function strncpy is similar to memcpy, except that it stops on a terminating null. strncpy also has the unfortunate requirement that it must supply null padding characters for a string whose length is less than n.
+*/
+char *my_strncpy(char *s1, const char *s2, size_t n) {
+    char *s;
+
+    for (s = s1; 0 < n && *s2 != '\0'; --n)
+        *s++ = *s2++;
+    for (; 0 < n; --n)
+        *s++ = '\0';
+    return s1;
+}
+
+//#define MAX_MEM_LEN 100
+int main_strncpy() {
+    char *s2 = "Hello, World!";
+    char s1[MAX_MEM_LEN] = {};
+
+    printf("s1 = %s\n", my_strncpy(s1, s2, 5));
+    printf("s1 = %s\n", my_strncpy(s1, s2, 13));
+    printf("s1 = %s\n", my_strncpy(s1, s2, 14));
+    printf("s1 = %s\n", my_strncpy(s1, s2, 15));
+
+    return 0;
+}
+
 
 /*
 NAME
