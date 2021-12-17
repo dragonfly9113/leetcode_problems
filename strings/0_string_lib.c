@@ -685,10 +685,37 @@ char *my_strcpy(char *s1, const char *s2) {
     return s1;
 }
 
+/*
+Version 1: strlen
+*/
+size_t my_strlen_1(const char *s) {
+    size_t cnt = 0;
 
-int main() {
+    for (; *s != '\0'; s++)
+        cnt++;
+    return cnt;
+}
 
+/*
+Version 2
+P. J. Plauger version
+*/
+size_t my_strlen(const char *s) {
+    const char *sc;
 
+    for (sc = s; *sc != '\0'; ++sc)
+        ;
+    return (sc - s);
+}
+
+int main_strlen() {
+    char *s1 = "Hello";
+    char *s2 = "Hello, world!";
+    char *s3 = "";
+
+    printf("len = %d\n", my_strlen(s1));
+    printf("len = %d\n", my_strlen(s2));
+    printf("len = %d\n", my_strlen(s3));
 }
 
 /*
@@ -746,6 +773,60 @@ int main_strchr() {
 
     return 0;
 }
+
+/*
+NAME
+       strcspn — get the length of a complementary substring
+SYNOPSIS
+       #include <string.h>
+
+       size_t strcspn(const char *s1, const char *s2);
+DESCRIPTION
+       The strcspn() function shall compute the length (in bytes) of the
+       maximum initial segment of the string pointed to by s1 which
+       consists entirely of bytes not from the string pointed to by s2.
+RETURN VALUE
+       The strcspn() function shall return the length of the computed
+       segment of the string pointed to by s1; no return value is
+       reserved to indicate an error.
+Example
+    s1 = "abcdefg"
+    s2 = "xyzdt"
+    ans = 3 because the initial segment of s1 "abc" consitss entirely of bytes not from s2 = "xyzdt".
+*/
+/*
+Version 1
+*/
+size_t my_strcspn(const char *s1, const char *s2) {
+    const char *sc1;
+    const char *sc2;
+
+    for (sc1 = s1; *sc1 != '\0'; sc1++)
+        for (sc2 = s2; *sc2 != '\0'; sc2++)
+            if (*sc1 == *sc2)
+                return (sc1 - s1);
+    return (sc1 - s1);
+}
+
+/*
+Version 2
+P. J. Plauger version
+Almost the same as version 1!
+*/
+
+int main_strcspn() {
+    char *s1 = "abcdefg";
+    char *s21 = "xyzdt";
+    char *s22 = "yscha";
+    char *s23 = "xyz";
+
+    printf("ans = %d\n", my_strcspn(s1, s21));
+    printf("ans = %d\n", my_strcspn(s1, s22));
+    printf("ans = %d\n", my_strcspn(s1, s23));
+
+    return 0;
+}
+
 
 /*
 NAME
