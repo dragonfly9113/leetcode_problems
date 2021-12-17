@@ -954,7 +954,89 @@ int main_strspn() {
     return 0;
 }
 
+/*
+NAME
+       strrchr — string scanning operation
+SYNOPSIS
+       #include <string.h>
 
+       char *strrchr(const char *s, int c);
+DESCRIPTION
+       The strrchr() function shall locate the last occurrence of c
+       (converted to a char) in the string pointed to by s.  The
+       terminating NUL character is considered to be part of the string.
+RETURN VALUE
+       Upon successful completion, strrchr() shall return a pointer to
+       the byte or a null pointer if c does not occur in the string.
+EXAMPLES
+   Finding the Base Name of a File
+       The following example uses strrchr() to get a pointer to the base
+       name of a file. The strrchr() function searches backwards through
+       the name of the file to find the last '/' character in name.
+       This pointer (plus one) will point to the base name of the file.
+
+           #include <string.h>
+           ...
+           const char *name;
+           char *basename;
+           ...
+           basename = strrchr(name, '/') + 1;
+           ...
+*/
+char *my_strrchr_1(const char *s, int c) {
+    const char ch = c;
+    size_t n = strlen(s);
+
+    for (s += n - 1; 0 < n; --n, --s)
+        if (*s == ch)
+            return (char *)s;
+    return NULL;
+}
+
+/*
+Version 2
+P. J. Plauger version
+
+The function strrchr is a useful complement to strchr. It memorizes the pointer to the rightmost orrurrence (in any) in sc. The type cast in the return statement is necessary, in this case, because sc points to a constant type.
+*/
+char *my_strrchr_2(const char *s, int c) {
+    const char ch = c;
+    const char *sc;
+
+    for (sc = NULL; ;++s) {
+        if (*s == ch)
+            sc = s;
+        if (*s == '\0')
+            return (char *)sc;
+    }
+}
+
+/*
+Version 3
+P. J. Plauger version + my touch
+*/
+char *my_strrchr(const char *s, int c) {
+    const char ch = c;
+    const char *sc;
+
+    for (sc = NULL; *s != '\0' ;++s)
+        if (*s == ch)
+            sc = s;
+    return (char *)sc;
+}
+
+int main_strrchr() {
+    char *s = "Hello, World!";
+    int c1 = 'H';
+    int c2 = 'W';
+    int c3 = 'w';
+
+    printf("ans = %s\n", my_strrchr(s, c1));
+    printf("ans = %s\n", my_strrchr(s, c2));
+    printf("ans = %s\n", my_strrchr(s, c3));
+
+    return 0;
+}
 
 /*
 NAME
@@ -1030,8 +1112,3 @@ int main_strstr() {
 
     return 0;
 }
-
-
-
-
-
