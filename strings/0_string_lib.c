@@ -606,6 +606,90 @@ int main_strncpy() {
     return 0;
 }
 
+/*
+Three of the str functions are direct analogs of the strn functions. The functions strcat, strcmp and strcpy differ only in not worring about a limiting string length n. Of cause, strcpy has no padding to contend with.
+*/
+/*
+Version 1: strcat
+*/
+char *my_strcat_1(char *s1, const char *s2) {
+    char *s;
+
+    for (s = s1; *s != '\0'; s++)
+        ;
+    for (; *s2 != '\0'; )
+        *s++ = *s2++;
+    *s = '\0';
+    return s1;
+}
+
+/*
+Version 2
+P. J. Plauger version
+*/
+char *my_strcat(char *s1, const char *s2) {
+    char *s;
+
+    for (s = s1; *s != '\0'; ++s)
+        ;
+    for (; (*s = *s2) != '\0'; ++s, ++s2)
+        ;
+    return s1;
+}
+
+/*
+Version 1: strcmp
+*/
+int my_strcmp_1(const char *s1, const char *s2) {
+    for (; *s1 != '\0' && *s2 != '\0'; s1++, s2++)
+        if (*s1 != *s2)
+            return (*s1 < *s2 ? -1 : 1);
+    if (*s1 != *s2)
+        return (*s1 < *s2 ? -1 : 1);
+    else
+        return 0;
+}
+
+/*
+Version 2
+P. J. Plauger version
+*/
+int my_strcmp(const char *s1, const char *s2) {
+    for (; *s1 == *s2; ++s1, ++s2)
+        if (*s1 == '\0')
+            return 0;
+    return (*(unsigned char *)s1 < *(unsigned char *)s2 ? -1 : 1);
+}
+
+/*
+Version 1: strcpy
+*/
+char *my_strcpy_1(char *s1, const char *s2) {
+    char *s;
+
+    for (s = s1; *s2 != '\0'; )
+        *s++ = *s2++;
+    *s = '\0';
+    return s1;
+}
+
+/*
+Version 2
+P. J. Plauger version
+*/
+char *my_strcpy(char *s1, const char *s2) {
+    char *s = s1;
+
+    for (s = s1; (*s++ = *s2++) != '\0'; )
+        ;
+    return s1;
+}
+
+
+int main() {
+
+
+}
 
 /*
 NAME
@@ -737,10 +821,6 @@ int main_strstr() {
 
     return 0;
 }
-
-
-
-
 
 
 
