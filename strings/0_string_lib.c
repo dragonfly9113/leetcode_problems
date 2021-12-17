@@ -827,6 +827,134 @@ int main_strcspn() {
     return 0;
 }
 
+/*
+NAME
+       strpbrk - search a string for any of a set of bytes
+SYNOPSIS
+       #include <string.h>
+
+       char *strpbrk(const char *s, const char *accept);
+DESCRIPTION
+       The strpbrk() function locates the first occurrence in the string
+       s of any of the bytes in the string accept.
+RETURN VALUE
+       The strpbrk() function returns a pointer to the byte in s that
+       matches one of the bytes in accept, or NULL if no such byte is
+       found.
+Example
+    s = "abcdefg"
+    accept = "xyzdt"
+    returns a pointer to 'd' in s, which matches one of the bytes in accept.
+*/
+char *my_strpbrk_1(const char *s, const char *accept) {
+    const char *sc, *ac;
+
+    for (sc = s; *sc != '\0'; sc++)
+        for (ac = accept; *ac != '\0'; ac++)
+            if (*sc == *ac)
+                return (char *)sc;
+    return NULL;
+}
+
+/*
+Version 2
+P. J. Plauger version
+*/
+char *my_strpbrk(const char *s1, const char *s2) {
+    const char *sc1, *sc2;
+
+    for (sc1 = s1; *sc1 !='\0'; ++sc1)
+        for (sc2 = s2; *sc2 != '\0'; ++sc2)
+            if (*sc1 == *sc2)
+                return (char *)sc1;
+    return NULL;
+}
+
+int main_strpbrk() {
+    char *s1 = "abcdefg";
+    char *s21 = "xyzdt";
+    char *s22 = "rstabc";
+    char *s23 = "xyzrstuvy";
+
+    printf("ans = %s\n", my_strpbrk(s1, s21));
+    printf("ans = %s\n", my_strpbrk(s1, s22));
+    printf("ans = %s\n", my_strpbrk(s1, s23));
+
+    return 0;
+}
+
+/*
+NAME
+       strspn, strcspn - get length of a prefix substring
+SYNOPSIS
+       #include <string.h>
+
+       size_t strspn(const char *s, const char *accept);
+       size_t strcspn(const char *s, const char *reject);
+DESCRIPTION
+       The strspn() function calculates the length (in bytes) of the
+       initial segment of s which consists entirely of bytes in accept.
+
+       The strcspn() function calculates the length of the initial
+       segment of s which consists entirely of bytes not in reject.
+RETURN VALUE
+       The strspn() function returns the number of bytes in the initial
+       segment of s which consist only of bytes from accept.
+
+       The strcspn() function returns the number of bytes in the initial
+       segment of s which are not in the string reject.
+Example
+    s = "abcdefg"
+    accept = "xyzabc"
+    ans = 3 because "abc" is the initial segment of s which consist only of bytes from accept.
+*/
+size_t my_strspn_1(const char *s, const char *accept) {
+    const char *sc, *ac;
+
+    for (sc = s; *sc != '\0'; sc++) {
+        for (ac = accept; *ac != '\0' && *sc != *ac; ac++)
+            ;
+        if (*ac == '\0')
+            return (sc - s);
+    }
+    return (sc -s);
+}
+
+/*
+Version 2
+P. J. Plauger version
+
+Example
+    s = "abcdefg"
+    accept = "xyzabc"
+    ans = 3 because "abc" is the initial segment of s which consist only of bytes from accept.
+*/
+size_t my_strspn(const char *s1, const char *s2) {
+    const char *sc1, *sc2;
+
+    for (sc1 = s1; *sc1 != '\0'; ++sc1)
+        for (sc2 = s2; ; ++sc2)
+            if (*sc2 == '\0')
+                return (sc1 - s1);
+            else if (*sc1 == *sc2)
+                break;
+    return (sc1 - s1);
+}
+
+int main_strspn() {
+    char *s1 = "abcdefg";
+    char *s21 = "xyzcba";
+    char *s22 = "rstabcopqefgd";
+    char *s23 = "xyzrstuvy";
+
+    printf("ans = %d\n", my_strspn(s1, s21));
+    printf("ans = %d\n", my_strspn(s1, s22));
+    printf("ans = %d\n", my_strspn(s1, s23));
+
+    return 0;
+}
+
+
 
 /*
 NAME
