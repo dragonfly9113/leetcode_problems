@@ -68,11 +68,10 @@ char * sortString_1(char * s){
 
 /*
 Version 2
-
 Use an alpabet count array to help.
 */
 #define MAX_NUM_LETTERS 26
-char * sortString(char * s){
+char * sortString_2(char * s){
     int cnt[MAX_NUM_LETTERS] = {0};
 
     char *out = calloc(MAX_STR_LEN, sizeof(char));
@@ -122,18 +121,141 @@ Input: s = "rat"
 Output: "art"
 Explanation: The word "rat" becomes "art" after re-ordering it with the mentioned algorithm.
 */
-int main() {
+int main_2() {
     char *out;
     char *s1 = "aaaabbbbcccc";
     char *s2 = "rat";
 
-    out = sortString(s1);
+    out = sortString_2(s1);
     printf("out = %s\n", out);
     free(out);
 
-    out = sortString(s2);
+    out = sortString_2(s2);
     printf("out = %s\n", out);
     free(out);
+
+    return 0;
+}
+
+/*
+Version 2.1
+No need to allocate an output buffer, just use the input s.
+*/
+#define MAX_NUM_LETTERS 26
+char * sortString_2_1(char * s){
+    int cnt[MAX_NUM_LETTERS] = {0};
+
+    for (char *p = s; *p != '\0'; p++)
+        ++cnt[*p - 'a'];
+
+    char *o = s;
+    while (1) {
+        for (int i = 0; i < MAX_NUM_LETTERS; i++)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }
+
+        for (int i = MAX_NUM_LETTERS - 1; i >= 0; i--)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }    
+
+        int sum = 0;
+        for (int i = 0; i < MAX_NUM_LETTERS; i++)
+            sum += cnt[i];
+        if (sum == 0)
+            break;
+    }
+    return s;
+}
+
+/*
+Version 2.2
+Use a better way to check if it is done.
+*/
+#define MAX_NUM_LETTERS 26
+char * sortString_2_2(char * s){
+    int n = strlen(s);
+    int cnt[MAX_NUM_LETTERS] = {0};
+
+    for (char *p = s; *p != '\0'; p++)
+        ++cnt[*p - 'a'];
+
+    char *o = s;
+    while (1) {
+        for (int i = 0; i < MAX_NUM_LETTERS; i++)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }
+        if (o -s >= n)
+            break;
+
+        for (int i = MAX_NUM_LETTERS - 1; i >= 0; i--)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }    
+        if (o -s >= n)
+            break;
+    }
+    return s;
+}
+
+/*
+Version 2.3
+A more compact way than v2.2.
+*/
+#define MAX_NUM_LETTERS 26
+char * sortString(char * s){
+    int n = strlen(s);
+    int cnt[MAX_NUM_LETTERS] = {0};
+
+    for (char *p = s; *p != '\0'; p++)
+        ++cnt[*p - 'a'];
+
+    char *o = s;
+    while (o -s < n) {
+        for (int i = 0; i < MAX_NUM_LETTERS; i++)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }
+        for (int i = MAX_NUM_LETTERS - 1; i >= 0; i--)
+            if (cnt[i] > 0) {
+                *o++ = 'a' + i;
+                --cnt[i];
+            }    
+    }
+    return s;
+}
+
+/*
+Example 1:
+Input: s = "aaaabbbbcccc"
+Output: "abccbaabccba"
+Explanation: After steps 1, 2 and 3 of the first iteration, result = "abc"
+After steps 4, 5 and 6 of the first iteration, result = "abccba"
+First iteration is done. Now s = "aabbcc" and we go back to step 1
+After steps 1, 2 and 3 of the second iteration, result = "abccbaabc"
+After steps 4, 5 and 6 of the second iteration, result = "abccbaabccba"
+
+Example 2:
+Input: s = "rat"
+Output: "art"
+Explanation: The word "rat" becomes "art" after re-ordering it with the mentioned algorithm.
+*/
+int main() {
+    char *out;
+    char s1[] = "aaaabbbbcccc";
+    char s2[] = "rat";
+
+    out = sortString(s1);
+    printf("out = %s\n", out);
+    out = sortString(s2);
+    printf("out = %s\n", out);
 
     return 0;
 }
