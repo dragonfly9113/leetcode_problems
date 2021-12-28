@@ -82,9 +82,8 @@ bool areOccurrencesEqual(char * s){
     for (char *sc = s; *sc != '\0'; sc++)
         ++freqTbl[*sc - 'a'];
 
-    int i;
     int cnt = freqTbl[s[0] - 'a'];
-    for (i = 0; i < MAX_NUM_LETTERS; i++) {
+    for (int i = 0; i < MAX_NUM_LETTERS; i++) {
         if (freqTbl[i] > 0 && cnt != freqTbl[i] )
             return false;
     }
