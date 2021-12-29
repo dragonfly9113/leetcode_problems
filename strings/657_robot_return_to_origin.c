@@ -23,25 +23,57 @@ moves only contains the characters 'U', 'D', 'L' and 'R'.
 */
 #include <stdio.h>
 #include <string.h>
-
+#include <stdbool.h>
 
 /*
 Version 1
+
+Example 1:
+Input: moves = "UD"
+Output: true
+Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
 */
 bool judgeCircle(char * moves){
+    int x = 0;
+    int y = 0;
 
-
-
+    for (char *p = moves; *p != '\0'; p++) {
+        switch (*p) {
+            case 'L':
+                x--;
+                break;
+            case 'R':
+                x++;
+                break;
+            case 'U':
+                y++;
+                break;
+            case 'D':
+                y--;
+                break;
+        }
+    }
+    return (x == 0 && y == 0);
 }
 
+/*
+Example 1:
+Input: moves = "UD"
+Output: true
+Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
 
+Example 2:
+Input: moves = "LL"
+Output: false
+Explanation: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
+*/
 int main() {
+    char *moves1 = "UD";
+    char *moves2 = "LL";
 
+    printf("ans = %d\n", judgeCircle(moves1));
+    printf("ans = %d\n", judgeCircle(moves2));
 
-
-
-
+    return 0;
 }
-
-
 
