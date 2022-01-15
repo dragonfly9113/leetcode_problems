@@ -34,6 +34,8 @@ s[i] is either 'a' or 'b'.
 /*
 Version 1
 
+This one is more like a brain teaser. Note that there are only 'a' or 'b' in the string and subsequence doesn't need to be continuous. Thus for a non-palindrom s, we can first remove all as and then remove all bs, which takes 2 steps.
+
 Example 2:
 Input: s = "abb"
 Output: 2
@@ -41,18 +43,45 @@ Explanation: "abb" -> "bb" -> "".
 Remove palindromic subsequence "a" then "bb".
 */
 int removePalindromeSub(char * s){
-    
+    int n = strlen(s);
 
+    if (n == 0)
+        return 0;   // empty string
 
-
+    for (int i = 0, j = n - 1; i < j; i++, j--)
+        if (s[i] != s[j])
+            return 2;       // s is not a palidrom
+    return 1;   // s itself is a palindrom
 }
 
+/*
+Example 1:
+Input: s = "ababa"
+Output: 1
+Explanation: s is already a palindrome, so its entirety can be removed in a single step.
 
+Example 2:
+Input: s = "abb"
+Output: 2
+Explanation: "abb" -> "bb" -> "". 
+Remove palindromic subsequence "a" then "bb".
 
+Example 3:
+Input: s = "baabb"
+Output: 2
+Explanation: "baabb" -> "b" -> "". 
+Remove palindromic subsequence "baab" then "b".
+*/
 int main() {
+    char *s1 = "ababa";
+    char *s2 = "abb";
+    char *s3 = "baabb";
 
+    printf("ans = %d\n", removePalindromeSub(s1));
+    printf("ans = %d\n", removePalindromeSub(s2));
+    printf("ans = %d\n", removePalindromeSub(s2));
 
-
+    return 0;
 }
 
 
