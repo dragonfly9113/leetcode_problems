@@ -20,6 +20,7 @@ words[i] consists of lowercase English letters.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 /*
 Version 1
@@ -126,15 +127,14 @@ int main_1_1() {
 /*
 Version 2
 
-Example 1:
-Input: words = ["bella","label","roller"]
-Output: ["e","l","l"]
+No need to create an individual hashmap for each word. Just create a final hashmap and a temp hashmap and keep the min values for each letter in the final hashmap (countFinal).
+The logic is much simpler.
 */
 #define MAX_LEN_LETTERS 26
-#define MAX_NUM_WORDS 100
 #define MAX_NUM_CHARS 100
+#define MIN(X, Y) ((X < Y) ? X : Y)
 char ** commonChars(char ** words, int wordsSize, int* returnSize){
-    int hashMaps[MAX_NUM_WORDS][MAX_LEN_LETTERS] = {{}};
+    int countFinal[MAX_LEN_LETTERS] = {[0 ... MAX_LEN_LETTERS - 1] = INT_MAX};
 
     char **out = (char **)calloc(MAX_NUM_CHARS, sizeof(char *));
     if (!out) {
@@ -142,34 +142,28 @@ char ** commonChars(char ** words, int wordsSize, int* returnSize){
         exit(1);
     }
     for (int i = 0; i < MAX_NUM_CHARS; i++) {
-        out[i] = (char *)calloc(2, sizeof(char));     // If using size = 1 here, online tester reports buffer overflow. I'm not sure why.
+        out[i] = (char *)calloc(2, sizeof(char));
         if (!out[i]) {
             printf("out[%d] is NULL, calloc() failed!\n", i);
             exit(1);
         }
     }
 
-    for (int i = 0; i < wordsSize; i++)
+    for (int i = 0; i < wordsSize; i++) {
+        int countTmp[MAX_LEN_LETTERS] = {0};
         for (char *p = words[i]; *p != '\0'; p++)
-            hashMaps[i][*p - 'a']++;
+            countTmp[*p - 'a']++;
+        for (int j = 0; j < MAX_LEN_LETTERS; j++)
+            countFinal[j] = MIN(countFinal[j], countTmp[j]);
+    }
 
     int cnt = 0;
-    for (char *p = words[0]; *p != '\0'; p++) {
-        int i;
-        for (i = 1; i < wordsSize; i++) {
-            if (hashMaps[i][*p - 'a'] == 0)
-                break;
-            hashMaps[i][*p - 'a']--;
-        }
-        if (i < wordsSize)
-            continue;
-        out[cnt][0] = *p;
-        cnt++;
-    }
+    for (int i = 0; i < MAX_LEN_LETTERS; i++)
+        for (int j = 0; j < countFinal[i]; j++)
+            out[cnt++][0] = 'a' + i;
     *returnSize = cnt;
     return out;
 }
-
 
 /*
 Example 1:
