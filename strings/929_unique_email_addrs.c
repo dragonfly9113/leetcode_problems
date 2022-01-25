@@ -66,11 +66,16 @@ int numUniqueEmails(char ** emails, int emailsSize){
         *o = '\0';
     }
 
-    printf("emailsSize = %d\n", emailsSize);
-    for (int i = 0; i < emailsSize; i++)
-        printf("%s\n", processedEmails[i]);
-
-    return emailsSize;
+    int cnt = 1;
+    for (int i = 1; i < emailsSize; i++) {
+        int j;
+        for (j = 0; j < i; j++)
+            if (!strcmp(processedEmails[j], processedEmails[i]))
+                break;
+        if (j == i)
+            cnt++;
+    }
+    return cnt;
 }
 
 /*
@@ -86,9 +91,13 @@ Output: 3
 int main() {
     char *emails1[] = {"test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"};
     int emailsSize1 = sizeof(emails1) / sizeof(char *);
+    char *emails2[] = {"a@leetcode.com","b@leetcode.com","c@leetcode.com"};
+    int emailsSize2 = sizeof(emails2) / sizeof(char *);
     
-    numUniqueEmails(emails1, emailsSize1);
+    printf("ans = %d\n", numUniqueEmails(emails1, emailsSize1));
+    printf("ans = %d\n", numUniqueEmails(emails2, emailsSize2));
 
     return 0;
 }
+
 
